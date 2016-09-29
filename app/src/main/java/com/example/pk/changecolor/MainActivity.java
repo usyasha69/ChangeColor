@@ -9,16 +9,17 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     public static final String COLOR_KEY = "color";
+    public static final String COLORS_KEY = "colors";
 
-    public static ArrayList<String> colors;
+    private ArrayList<String> colors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        createFragments();
         createAndFillingColorsList();
+        createFragments();
     }
 
     private void createAndFillingColorsList() {
@@ -44,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<ColorFragment> changeColorListenersForFourth = new ArrayList<>();
 
         //create fragments
-        ColorFragment firstColorFragment = ColorFragment.newInstance("#0000ff");
-        ColorFragment secondColorFragment = ColorFragment.newInstance("#ff0000");
-        ColorFragment thirdColorFragment = ColorFragment.newInstance("#00ff00");
-        ColorFragment fourthColorFragment = ColorFragment.newInstance("#000000");
+        ColorFragment firstColorFragment = ColorFragment.newInstance("#0000ff", colors);
+        ColorFragment secondColorFragment = ColorFragment.newInstance("#ff0000", colors);
+        ColorFragment thirdColorFragment = ColorFragment.newInstance("#00ff00", colors);
+        ColorFragment fourthColorFragment = ColorFragment.newInstance("#000000", colors);
 
         //filling list with listeners for first fragment
         changeColorListenersForFirst.add(secondColorFragment);

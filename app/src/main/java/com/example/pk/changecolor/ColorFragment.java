@@ -17,15 +17,17 @@ public class ColorFragment extends Fragment implements ChangeColorListener {
     private View view;
     private String color;
     private ArrayList<ColorFragment> changeColorListeners;
+    private ArrayList<String> colors;
 
     public void setChangeColorListeners(ArrayList<ColorFragment> changeColorListeners) {
         this.changeColorListeners = changeColorListeners;
     }
 
-    public static ColorFragment newInstance(String color) {
+    public static ColorFragment newInstance(String color, ArrayList<String> colors) {
 
         Bundle args = new Bundle();
         args.putString(MainActivity.COLOR_KEY, color);
+        args.putStringArrayList(MainActivity.COLORS_KEY, colors);
 
         ColorFragment fragment = new ColorFragment();
         fragment.setArguments(args);
@@ -36,8 +38,13 @@ public class ColorFragment extends Fragment implements ChangeColorListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null && getArguments().containsKey(MainActivity.COLOR_KEY)) {
-            color = getArguments().getString(MainActivity.COLOR_KEY);
+        Bundle bundle = getArguments();
+
+        if (bundle != null && bundle.containsKey(MainActivity.COLOR_KEY)
+                && bundle.containsKey(MainActivity.COLORS_KEY)) {
+
+            color = bundle.getString(MainActivity.COLOR_KEY);
+            colors = bundle.getStringArrayList(MainActivity.COLORS_KEY);
         }
     }
 
@@ -68,14 +75,13 @@ public class ColorFragment extends Fragment implements ChangeColorListener {
                     //filling array with colors
                     for (int i = 0; i < colorArray.length; i++) {
                         colorArray[i] = Color.parseColor(
-                                MainActivity.colors.get(
-                                        (int) (Math.random() * MainActivity.colors.size())));
+                                colors.get((int) (Math.random() * colors.size())));
                     }
 
                     //result variable
                     boolean result = true;
 
-                    //checked result
+                    //checked fragments color
                     for (int i = 0; i < colorArray.length; i++) {
                         for (int j = i + 1; j < colorArray.length; j++) {
                             if (colorArray[i] == colorArray[j]) {
